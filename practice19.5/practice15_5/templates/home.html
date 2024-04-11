@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<table class="table table-bordered mt-5">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">MUSICIAN NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">ALBUM RATING</th>
+            <th scope="col">INSTRUMENT TYPE</th>
+            <th scope="col">ALBUM NAME</th>
+            <th scope="col">RELEASE DATE</th>
+            <th scope="col">ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in combined_data %}
+        <tr>
+            <th scope="row">{{ data.album.id }}</th>
+            {% if user.is_authenticated %}
+            <td><a href="{% url 'edit_musician' data.musician.id %}">{{ data.musician.first_name }}</a></td>
+            {% endif %}
+            <td>{{ data.musician.first_name }}</td>
+            <td>{{ data.musician.email }}</td>
+            <td>{{ data.album.rating }}</td>
+            <td>{{ data.musician.instrument_type }}</td>
+            <td>{{ data.album.AlbumName }}</td>
+            <td>{{ data.album.release_date }}</td>
+            {% if user.is_authenticated %}
+            <td>
+                <button><a href="{% url 'edit_album' data.album.id %}">Edit</a></button>
+                <button><a href="{% url 'dlt_musician' data.musician.id %}">Delete</a></button>
+            </td>
+            {% else %}
+            <!-- <td>
+                <button disabled><a href="{% url 'login' %}">Edit</a></button>
+                <button disabled><a href="{% url 'login' %}">Delete</a></button>
+            </td> -->
+            {% endif %}
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
