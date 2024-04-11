@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="text-center text-danger fw-bold mb-4 mt-4"> Home Page </h1>
+<div class="container-fluid">
+    <div class="d-flex flex-wrap align-items-center mt-5 justify-content-center">
+        <div class="col-lg-6 mx-auto mb-lg-2">
+            <h1 class="fw-bold text-center">Welcome to <span class="text-danger">Car Mart</span></h1>
+            <p class="text-center text-dark p-5 mx-auto d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente tenetur
+                possimus eaque autem est corporis
+                necessitatibus harum perferendis vero accusamus soluta earum iste eos, officiis, quam, fugit magnam
+                optio
+                commodi vel corrupti tempore magni modi deserunt. Voluptatum odit neque aut eius aliquam saepe fugit
+                vero,
+                tempore officia ex? Nobis natus labore fugiat, accusantium mollitia, ratione inventore eos dignissimos
+                dolore facere voluptates voluptas praesentium ipsam. Rerum eveniet pariatur vel aperiam tempora incidunt
+                aspernatur totam hic dolore ratione numquam a veritatis iusto, sequi obcaecati, consectetur perspiciatis
+                explicabo. Temporibus iure, ducimus aspernatur fuga porro eveniet voluptate quia est? Dolores natus vel
+                numquam enim!</p>
+        </div>
+
+        <div class="col-lg-6 mx-auto">
+            <img src="{% static 'car.jpg' %}" style="width: 80%;" alt="" class="p-5 mx-auto d-block">
+        </div>
+    </div>
+
+    <div class="container-fluid" style="padding-top: 2rem; padding-bottom: 2rem; background-color: #ffffff;">
+        <h1 class="text-center text-danger fw-bold mb-5">Total Cars Found: {{ cars | length }}</h1>
+        <div class="row">
+            <div class="col-md-13 ">
+                <h2 class="text-center bg-dark text-warning fw-bold mb-5" style="padding: 10px;">Available Brands</h2>
+                <div class="row row-cols-1 row-cols-md-5 g-2 mx-auto">
+                    {% for brand in brandData %}
+                    <div class="col">
+                        <a href="{% url 'brand_wise_filter' brand.slug %}"><button class="btn btn-outline-warning btn-danger text-white"
+                            type="submit">{{ brand.name }}</button></a>
+                        <!-- <a href="{% url 'brand_wise_filter' brand.slug %}" class="btn btn-warning btn-lg px-4 py-3 mb-3 fw-bold">{{ brand.name }}</a> -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<div class="row row-cols-1 row-cols-md-5 g-4">
+    {% for car in cars %}
+    <div class="col">
+        <div class="card text-white bg-dark">
+            <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.name }}">
+            <div class="card-body text-center"> <!-- Added text-center class -->
+                <h5 class="card-title">{{ car.name }}</h5>
+                <p class="card-text">{{ car.description | truncatewords_html:12 }}</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark text-warning">Car ID: {{ car.id }}</li>
+                    <li class="list-group-item bg-dark text-warning">Brand: {{ car.brand.name }}</li>
+                    <li class="list-group-item bg-dark text-warning">Price: {{ car.price }}</li>
+                    <!-- <li class="list-group-item bg-dark text-warning">Available Quantity: {{ car.quantity }}</li> -->
+                </ul>
+
+                <a href="{% url 'cardetails' car.id %}"><button class="btn btn-outline-warning btn-danger text-white"
+                        type="submit">Details</button></a>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}

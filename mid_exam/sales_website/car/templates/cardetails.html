@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1 class="text-center fw-bold mt-4 mb-4"> Details of <br> <span class="text-danger fw-bold">{{car.name}} </span>
+</h1>
+<div class="row align-items-center justify-content-center">
+    <div class="col-md-5 d-flex justify-content-center align-items-center">
+        <img src="{{car.image.url}}" class="card-img-top" alt="Car Image" style="max-width: 100%;">
+    </div>
+
+    <div class="col-md-5 d-flex justify-content-center align-items-center">
+        <div class="text-center">
+            <h1> Car Model: <span class="text-danger fw-bold">{{car.name}}</span> </h1>
+            <h2> Price: <span class="text-danger fw-bold">{{car.price}}</span> </h2>
+            <h2> Brand: <span class="text-danger fw-bold">{{car.brand.name}}</span> </h2>
+            <h2> Available Car: <span class="text-danger fw-bold">{{ car.quantity }}</span> </h2>
+            <p> {{car.description}} </p>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'buy_now' car.id %}" class="btn btn-warning border border-dark border-3 px-4 text-danger">Buy Now</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- <div style="width: 80%; margin: auto; margin-top: 5%; border: 1px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center;">Comments for {{ car.name }}</h2>
+    <hr style="margin-bottom: 20px;">
+    <ul style="list-style: none; padding: 0;">
+        {% for comment in comments %}
+            <li style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <p style="font-size: 16px;"><strong>NAME: {{ comment.name }}</strong> <br> {{ comment.text }} <br><small>time : {{comment.created_date}}</small></p>
+            </li>
+        {% empty %}
+            <li style="text-align: center;">No comments yet.</li>
+        {% endfor %}
+    </ul>
+</div> -->
+
+<style>
+    /* Custom styles for comments section */
+    .comments-container {
+        width: 90%;
+        margin: auto;
+        margin-top: 5%;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9; /* Light gray background color */
+    }
+
+    .comments-heading {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .comment-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .comment-author {
+        font-weight: bold;
+        color: #336699; /* Dark blue color for author name */
+    }
+
+    .comment-text {
+        font-size: 16px;
+        color: #333; /* Dark gray color for comment text */
+    }
+
+    .comment-time {
+        color: #666; /* Gray color for comment time */
+        font-size: 12px;
+    }
+
+    .no-comments {
+        text-align: center;
+        font-size: 18px;
+        color: #999; /* Light gray color for no comments message */
+    }
+</style>
+
+<div class="comments-container">
+    <h2 class="comments-heading">Comments for {{ car.name }}</h2>
+    <hr style="margin-bottom: 20px;">
+    <ul class="comments-list">
+        {% for comment in comments %}
+            <li class="comment-item">
+                <p class="comment-text"><span class="comment-author">Name:</span> {{ comment.name }} <br>{{ comment.text }} <br><small class="comment-time">Time: {{ comment.created_date }}</small></p>
+            </li>
+        {% empty %}
+            <li class="no-comments">No comments yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+<form method="post" style="width:90%; margin: auto; ">
+    <h2 class="text-danger">Add a Comment</h2>
+    {% csrf_token %}
+    {{ form | crispy }}
+    <!-- <a href="{% url 'buy_now' car.id %}" class="btn btn-warning border border-dark border-3 px-4">Buy Now</a> -->
+    <button type="submit" class="btn btn-warning border border-dark border-3 px-4 text-danger">Submit</button>
+</form>
+
+{% endblock content %}
+
+
+<!-- <img src="{{car.image.url}}" class="card-img-top" alt="Car Image">-->
+
+<!-- <div class="card" style="width: 40rem;">
+    <div class="card-body text-center">
+        <h2 class="card-title">{{car.car_name}}</h2>
+        <h4 class="card-title">Price: {{car.price}}</h4>
+        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam, velit, quis,
+            voluptas blanditiis illo temporibus in suscipit nam molestiae recusandae soluta officiis
+            pariatur. Dolores, impedit ea! Adipisci enim minima nihil magnam excepturi quas asperiores
+            repellendus iusto, quibusdam, soluta voluptate vitae?</p>
+        <h4 class="card-title">Brand: {{car.brand.brand_name}}</h4>
+
+        {% if request.user.is_authenticated %}
+        <a href="#" class="btn btn-primary">Buy Now</a>
+        {% endif %}
+    </div>
+</div> -->

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Custom styles */
+    .profile-card {
+        max-width: 300px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: block;
+        object-fit: cover;
+    }
+
+    .card-container {
+        max-width: 400px;
+        margin: 50px auto;
+    }
+
+    .card {
+        width: 100%;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="container-fluid">
+    <!-- Profile details -->
+    <div class="profile-card text-center">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-img">
+    <h2>{{user.first_name}} {{user.last_name}}</h2>
+        <p>Email: {{user.email}}</p>
+        <p>Location: New York</p>
+        <a href="{% url 'edit_user' %}"><button class="btn btn-outline-warning btn-danger text-white"
+            type="submit">Edit Profile </button></a>
+        <!-- <p>Bio: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+    </div>
+
+
+    {% if car %}
+
+    <!-- Cart details -->
+    <div class="card-container">
+        <h2 class="text-center">Cart Details</h2>
+        <div class="card text-white bg-dark">
+            <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.name }}">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ car.name }}</h5>
+                <p class="card-text">{{ car.description | truncatewords_html:12 }}</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark text-warning">Car ID: {{ car.id }}</li>
+                    <li class="list-group-item bg-dark text-warning">Brand: {{ car.brand.name }}</li>
+                    <li class="list-group-item bg-dark text-warning">Price: {{ car.price }}</li>
+                    <li class="list-group-item bg-dark text-warning">Available Quantity: {{ car.quantity }}</li>
+                </ul>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'cardetails' car.id %}"><button class="btn btn-outline-warning btn-danger text-white" type="submit">Details</button></a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-light">Login to View Details</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endif%}
+</div>
+{% endblock %}
