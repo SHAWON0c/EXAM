@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for message in messages %}
+<div class="alert alert-success" role="alert">
+  {{ message }}
+</div>
+{% endfor %}
+
+
+<form style="width: 40%; margin: auto;" method="post" novalidate>
+
+
+  <h1>{{ type }} Page</h1>
+
+  {% csrf_token %}
+
+  <!-- {{form|crispy}} -->
+
+  {% for fm in form %}
+  {{ fm.label_tag }}
+  {{ fm }}
+  {{ fm.errors|striptags }}
+  {% endfor %}
+  <br>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+{% endblock %}
